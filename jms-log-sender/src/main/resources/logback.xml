@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="true">
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="queue" class="ch.qos.logback.classic.net.JMSQueueAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <InitialContextFactoryName>
+            org.apache.activemq.jndi.ActiveMQInitialContextFactory
+        </InitialContextFactoryName>
+        <ProviderURL>tcp://localhost:61616</ProviderURL>
+        <QueueConnectionFactoryBindingName>queueConnectionFactory</QueueConnectionFactoryBindingName>
+        <QueueBindingName>my-logback-queue</QueueBindingName>
+        <userName>admin</userName>
+        <password>admin</password>
+    </appender>
+
+    <root>
+        <level value="DEBUG" />
+        <appender-ref ref="console" />
+        <appender-ref ref="queue"/>
+    </root>
+
+</configuration>
